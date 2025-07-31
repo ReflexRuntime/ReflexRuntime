@@ -36,7 +36,7 @@ ReflexRuntime can potentially handle various runtime issues:
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/ReflexRuntime.git
+git clone https://github.com/ReflexRuntime/ReflexRuntime.git
 cd ReflexRuntime
 pip install -r requirements.txt
 ```
