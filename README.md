@@ -1,228 +1,201 @@
-# 🚀 ReflexRuntime: AI-Powered Self-Healing Code
+# ReflexRuntime
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![OpenAI GPT-4](https://img.shields.io/badge/AI-GPT--4-green.svg)](https://openai.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Zero-downtime error recovery through intelligent AI analysis and real-time code patching**
+> Intelligent runtime error recovery through AI-powered code analysis and dynamic patching
 
-ReflexRuntime is a revolutionary self-healing framework that **automatically fixes exceptions at runtime** by sending error context to AI models (GPT-4), receiving intelligent patches, and hot-swapping functions in memory—all with **zero downtime**.
+ReflexRuntime is an experimental framework that leverages large language models to automatically analyze runtime exceptions and attempt to generate corrective patches. When an exception occurs, the system captures the execution context, sends it to an AI model for analysis, and dynamically applies suggested fixes without requiring application restarts.
 
-## 🌟 Key Features
+## Features
 
-### 🧠 **Real AI Integration**
-- **OpenAI GPT-4** analyzes exceptions with full context
-- **Intelligent code generation** based on error patterns
-- **95%+ patch success rate** for common production errors
+### Automatic Error Analysis
+- Captures detailed exception context including stack traces, variable states, and code snippets
+- Sends comprehensive error information to AI models for intelligent analysis
+- Generates contextual patches based on error patterns and code structure
 
-### ⚡ **Zero-Downtime Recovery**
-- **Hot-swapping functions** in memory without restarts
-- **Instant error resolution** maintains service availability
-- **Preserves application state** during healing process
+### Dynamic Code Patching  
+- Hot-swaps functions in memory using Python's dynamic execution capabilities
+- Preserves application state during the patching process
+- Maintains execution flow without service interruption
 
-### 🎯 **Production-Ready Scenarios**
-- **API format changes** (microservices evolution)
-- **Data type inconsistencies** (string vs number)
-- **Missing fields** (network/API issues)
-- **Unicode/encoding problems** (international data)
-- **Configuration errors** (environment differences)
+### Comprehensive Logging
+- Detailed session logs for every AI interaction and patch attempt
+- Markdown-formatted reports with full context and reasoning
+- Debug viewer for analyzing patch success rates and error patterns
 
-### 📊 **Complete Observability**
-- **Detailed debug logs** of every AI session
-- **Markdown reports** with full context and reasoning
-- **Session analytics** and success rate tracking
-- **Interactive debug viewer** for analysis
+### Production Scenarios
+ReflexRuntime can potentially handle various runtime issues:
+- Division by zero and mathematical errors
+- Missing dictionary keys and attribute errors  
+- Type conversion failures
+- API response format inconsistencies
 
----
+## Quick Start
 
-## 🚀 Quick Start
-
-### 1. Installation
+### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/ReflexRuntime.git
+git clone https://github.com/yourusername/ReflexRuntime.git
 cd ReflexRuntime
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configuration
+### Configuration
 
+Set up your OpenAI API key:
 ```bash
-# Create .env file with your OpenAI API key
-cp .env.example .env
-# Edit .env and add: OPENAI_API_KEY=your_actual_openai_api_key_here
+export OPENAI_API_KEY="your_openai_api_key_here"
 ```
 
-### 3. Your First Self-Healing Application
+### Basic Usage
 
 ```python
-import reflexruntime
+from reflexruntime.core.orchestrator import activate_reflex_runtime
 
-# Install automatic patching
-reflexruntime.install_autopatch()
+# Enable automatic error handling
+activate_reflex_runtime(debug=True)
 
-def process_payment(amount, currency):
-    # This code assumes 'currency' is always present
-    return f"Processing ${amount} {currency['code']}"
+def divide_numbers(a, b):
+    return a / b
 
-# When this fails with KeyError, ReflexRuntime will:
-# 1. Analyze the exception with GPT-4
-# 2. Generate a robust patch with proper error handling
-# 3. Hot-swap the function in memory
-# 4. Continue execution seamlessly
+# When this raises ZeroDivisionError, ReflexRuntime will:
+# 1. Capture the exception context
+# 2. Send details to AI for analysis  
+# 3. Generate and apply a potential fix
+# 4. Retry the operation
 
-result = process_payment(100, {})  # Missing 'code' key - triggers AI healing
-print(result)  # Works after AI patch!
+result = divide_numbers(10, 0)  # Triggers AI healing
 ```
 
----
+## Demonstrations
 
-## 🎬 Live Demo Scenarios
+### Demo 1: Division Calculator (`demo1_division_calculator.py`)
 
-### 🛒 **E-Commerce API Integration** (\`quick_demo.py\`)
-
-Perfect for live presentations! Demonstrates handling real-world API integration issues:
+Interactive calculator demonstrating automatic handling of division by zero errors:
 
 ```bash
-python3 quick_demo.py
+python demo1_division_calculator.py
 ```
 
-**Scenarios covered:**
-- API format changes between microservices
-- Data type inconsistencies (string vs number)
-- Missing required fields from network issues
-- Currency and percentage format variations
+Features:
+- Real-time error detection and recovery
+- Interactive command-line interface
+- Visible healing process with status updates
 
-### 🔧 **Interactive Self-Healing** (\`examples/working_demo.py\`)
+### Demo 2: Missing Key Handler (`demo2_missing_key_handler.py`)
 
-Interactive demo showing real-time AI analysis:
+Shows automatic recovery from missing dictionary key errors in user data processing:
 
 ```bash
-cd examples
-python3 working_demo.py
+python demo2_missing_key_handler.py
 ```
 
-**Features:**
-- Real-time exception analysis
-- Full LLM debug output visibility
-- Step-by-step healing process
-- Immediate retry with patched function
+Features:
+- Simulates real-world data processing scenarios
+- Demonstrates handling of KeyError exceptions
+- Shows graceful degradation with default values
 
-### 📚 **Advanced Error Scenarios** (\`demo_scenarios.py\`)
+### Demo 3: Flask API Monitor (`demo3_flask_api.py`)
 
-Comprehensive test suite covering complex production issues:
+Comprehensive Flask API with failure injection and real-time monitoring:
 
 ```bash
-python3 demo_scenarios.py
+python demo3_flask_api.py
 ```
 
-**Covers 6 major scenario categories:**
-- Unicode/encoding issues (international users)
-- Configuration/environment problems
-- Dynamic list access errors
-- Date/time parsing variations
-- API response format changes
-- Data type inconsistencies
+Then open http://localhost:5000 in your browser.
 
----
+Features:
+- Live monitoring dashboard with metrics and charts
+- Configurable failure injection for testing
+- Real-time visualization of error rates and healing success
+- Multiple API endpoints demonstrating different error scenarios
+- Load testing capabilities
 
-## 🏗️ Architecture
+## Architecture
 
 ### Core Components
 
 ```
-ReflexRuntime/
-├── reflexruntime/
-│   ├── core/
-│   │   ├── orchestrator.py      # Main exception handler
-│   │   ├── llm_client.py        # OpenAI GPT-4 integration
-│   │   ├── debug_logger.py      # Session logging system
-│   │   └── schemas.py           # Data structures
-│   └── agents/
-│       └── python/
-│           └── hook.py          # Exception hook installer
-├── debug/                       # AI session logs (auto-generated)
-├── examples/                    # Demo scenarios
-└── debug_viewer.py             # Interactive log viewer
+reflexruntime/
+├── core/
+│   ├── orchestrator.py    # Exception handling and coordination
+│   ├── llm_client.py      # AI model integration
+│   ├── debug_logger.py    # Session logging and analytics  
+│   └── schemas.py         # Data structures and types
+└── agents/
+    └── python/
+        └── hook.py        # Exception hook installation
 ```
 
 ### How It Works
 
-1. **🔍 Exception Detection**
-   - Automatic hook installation captures all exceptions
-   - Rich context extraction (code, variables, traceback)
+1. **Exception Capture**: Custom exception hooks intercept runtime errors and collect execution context
+2. **AI Analysis**: Exception details are sent to language models for analysis and patch generation  
+3. **Dynamic Patching**: Generated code is validated and hot-swapped into the running application
+4. **Execution Retry**: The original operation is retried with the patched function
+5. **Session Logging**: All interactions are logged for analysis and debugging
 
-2. **🧠 AI Analysis**
-   - Full context sent to GPT-4
-   - Intelligent patch generation with explanation
-   - Confidence scoring and test case suggestions
+## Debug and Monitoring
 
-3. **⚡ Hot Patching**
-   - Function extraction and validation
-   - Safe code execution in controlled namespace
-   - Memory-level function replacement
+### Debug Viewer
 
-4. **📝 Session Logging**
-   - Complete audit trail in markdown format
-   - Debug sessions with full context
-   - Analytics and performance tracking
-
----
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**"OpenAI API key not found"**
-```bash
-# Check your .env file
-cat .env
-# Should contain: OPENAI_API_KEY=sk-...
-```
-
-**"LLM API error: 429"**
-```bash
-# Rate limit exceeded - check your OpenAI usage
-# Consider upgrading your OpenAI plan
-```
-
-**"Patch application failed"**
-```bash
-# Check debug logs for details
-python3 debug_viewer.py
-```
-
-### Interactive Debug Viewer
+View detailed logs of all AI interactions:
 
 ```bash
-python3 debug_viewer.py
+python debug_viewer.py
 ```
 
 Features:
-- 📊 Session statistics and analytics
-- 🔍 Interactive session browser
-- 📋 Exception type analysis
-- 📈 Success rate tracking
+- Session analytics and success rate tracking
+- Interactive session browser with filtering
+- Exception type analysis and patterns
+- Patch effectiveness metrics
+
+### Session Logs
+
+All AI interactions are automatically logged to the `debug/` directory in markdown format, including:
+- Complete exception context and stack traces
+- AI model responses and reasoning  
+- Generated patches and validation results
+- Success/failure status and execution timing
+
+## Limitations and Considerations
+
+### Important Notes
+
+- **Experimental Technology**: This is a research project exploring AI-powered error recovery
+- **Security Considerations**: Dynamic code execution introduces potential security risks
+- **Production Readiness**: Not recommended for production environments without thorough testing
+- **AI Model Dependency**: Requires access to language models (OpenAI API) for functionality
+- **Success Rates**: Effectiveness varies significantly based on error type and code complexity
+
+### Best Practices
+
+- Use in development and testing environments initially
+- Review generated patches before deploying to production
+- Monitor debug logs for unexpected behavior
+- Implement proper error handling as a primary strategy
+- Consider ReflexRuntime as a fallback mechanism, not a primary solution
+
+## Contributing
+
+We welcome contributions! Please see our contributing guidelines and:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes with appropriate tests  
+4. Submit a pull request with a clear description
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+This project explores the intersection of AI and runtime systems, inspired by advances in large language models and their potential applications in software engineering.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 🌟 Star History
-
-⭐ **Star this repo** if ReflexRuntime helps you build more resilient applications!
-
----
-
-<div align="center">
-
-**Built with ❤️ by developers who believe in AI-powered resilience**
-
-</div>
+**⚠️ Disclaimer**: ReflexRuntime is an experimental project. Use caution when deploying in production environments and always implement proper error handling as your primary strategy.
